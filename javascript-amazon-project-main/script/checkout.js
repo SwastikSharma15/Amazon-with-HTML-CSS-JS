@@ -131,25 +131,40 @@ document.querySelectorAll('.js-update-link').forEach((link) => {
   });
 });
 
+// Function to save quantity (reusable for both Save button and Enter key)
+function saveQuantity(productId) {
+  const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+  const newQuantity = Number(quantityInput.value);
+  
+  if(newQuantity < 1 || newQuantity >= 100) {
+    alert('Please enter a quantity between 1 and 100.');
+    return;
+  }
 
+  updateQuantity(productId, newQuantity);
+
+  const container = document.querySelector(`.js-cart-item-container${productId}`);
+  container.classList.remove('is-editing-quantity');
+
+  const quantityLabel = document.querySelector(`.js-quantity-label${productId}`);
+  quantityLabel.innerHTML = newQuantity;
+  updateCartQuantity();
+}
+
+// Save button event listeners
 document.querySelectorAll('.js-save-link').forEach((link) => {
   link.addEventListener('click', () => {
     const productId = link.dataset.productId;
-    
-    const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
-    const newQuantity = Number(quantityInput.value);
-    if(newQuantity < 1 || newQuantity >= 100) {
-      alert('Please enter a quantity between 1 and 100.');
-      return;
+    saveQuantity(productId);
+  });
+});
+
+// Enter key event listeners for quantity inputs
+document.querySelectorAll('.quantity-input').forEach((input) => {
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      const productId = input.dataset.productId;
+      saveQuantity(productId);
     }
-
-    updateQuantity(productId, newQuantity);
-
-    const container = document.querySelector(`.js-cart-item-container${productId}`);
-    container.classList.remove('is-editing-quantity');
-
-    const quantityLabel = document.querySelector(`.js-quantity-label${productId}`);
-    quantityLabel.innerHTML = newQuantity;
-    updateCartQuantity();
   });
 });
