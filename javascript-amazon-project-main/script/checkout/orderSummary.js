@@ -34,7 +34,9 @@ cart.forEach((cartItem) => {
     const dateString = deliveryDate.format('dddd, MMMM D');
 
     cartSummaryHTML += `
-        <div class="cart-item-container js-cart-item-container${matchingProduct.id}">
+        <div class="cart-item-container 
+        js-cart-item-container
+        js-cart-item-container${matchingProduct.id}">
             <div class="delivery-date">
               Delivery date: ${dateString}
             </div>
@@ -116,6 +118,8 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
 };
 
 document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
+
+updateCartQuantity();
 
 document.querySelectorAll('.js-delete-link').forEach((link) => {
     link.addEventListener('click', () => {
