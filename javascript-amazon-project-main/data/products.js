@@ -95,9 +95,10 @@ export function loadProducts(fun) {
     });
     fun();
   });
-
+  console.log('loading products');
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
+  
 }
 
 
