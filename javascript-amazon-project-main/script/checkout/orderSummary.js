@@ -54,7 +54,7 @@ cartSummaryHTML += `
         </div>
         <div class="product-quantity js-product-quantity js-product-quantity-${matchingProduct.id}">
           <span>
-            Quantity: <span class="js-product-quantity-value js-product-quantity-${matchingProduct.id}">${cartItem.quantity}</span>
+            Quantity: <span class="js-product-quantity-value js-product-quantity-${matchingProduct.id} js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
           </span>
 
           <span class="update-quantity-link link-primary js-update-link" data-product-id="${matchingProduct.id}">
@@ -149,7 +149,7 @@ document.querySelectorAll('.js-update-link').forEach((link) => {
   link.addEventListener('click', () => {
     const productId = link.dataset.productId;
     
-    const container = document.querySelector(`.js-cart-item-container${productId}`);
+    const container = document.querySelector(`.js-cart-item-container-${productId}`);
     container.classList.add('is-editing-quantity');
   });
 });
@@ -166,10 +166,10 @@ function saveQuantity(productId) {
 
   updateQuantity(productId, newQuantity);
 
-  const container = document.querySelector(`.js-cart-item-container${productId}`);
+  const container = document.querySelector(`.js-cart-item-container-${productId}`);
   container.classList.remove('is-editing-quantity');
 
-  const quantityLabel = document.querySelector(`.js-quantity-label${productId}`);
+  const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
   quantityLabel.innerHTML = newQuantity;
   updateCartQuantity();
 }
