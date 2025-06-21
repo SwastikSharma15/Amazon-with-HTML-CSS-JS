@@ -8,13 +8,25 @@ import { loadCart } from "../data/cart.js";
 
 async function loadPage(){
 
-    await loadProductsFetch();
+    try {
 
-    await new Promise((resolve) => {
-        loadCart(() => {
-            resolve();
-        });
-    })
+        // throw 'error1';
+
+        await loadProductsFetch();
+
+        const value = await new Promise((resolve) => {
+            // throw 'error2';
+
+            loadCart(() => {
+                // reject('error3'); // This is provided by promise 
+                
+                resolve('value3');
+            });
+        })
+
+    } catch (error) {
+    console.error("Error loading products or cart");
+    }
 
     renderOrderSummary();
     renderPaymentSummary();
