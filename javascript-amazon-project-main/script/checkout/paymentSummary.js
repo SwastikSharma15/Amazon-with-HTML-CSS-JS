@@ -2,6 +2,7 @@ import { cart } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import { formatCurrency } from "../utils/money.js";
+import { addOrder } from "../../data/orders.js";
 
 export function renderPaymentSummary() {
     let productPriceCents = 0;
@@ -53,7 +54,27 @@ export function renderPaymentSummary() {
 
           document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML;
 
-          document.querySelector('.js-place-order').addEventListener('click', () => {
-            fetch('https://supersimplebackend.dev/orders')
+          document.querySelector('.js-place-order').addEventListener('click', async () => {
+
+            try {
+              const response = await fetch('https://supersimplebackend.dev/orders', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                cart: cart
+              })
+            });
+
+            const order = await response.json();
+            addOrder(order);
+
+            } catch (error) {
+              
+              console.error('Unexpected error while placing order try agian latet.');
+            }
+            
+            window.location.href = 'orders.html';
           });
 }
