@@ -8,7 +8,16 @@ function renderProductsGrid () {
 
   let productsHTML = '';
 
-  products.forEach((product) => {
+  const url = new URL(window.location.href);
+  const search = url.searchParams.get('search') || '';
+
+  let filteredProducts = products;
+  if (search) {
+    filteredProducts = products.filter((product) => {
+      return product.name.toLowerCase().includes(search.toLowerCase());
+    });
+  }
+  filteredProducts.forEach((product) => {
     productsHTML += `
       <div class="product-container">
         <div class="product-image-container">
@@ -107,5 +116,16 @@ function renderProductsGrid () {
 
   // Initialize quantity on page load
   updateCartQuantity();
+  document.querySelector('.js-search-button').addEventListener('click', () => {
+    const search = document.querySelector('.js-search-bar').value;
+    window.location.href = `amazon.html?search=${encodeURIComponent(search)}`;
+  });
+
+  document.querySelector('.js-search-bar').addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    const search = event.target.value;
+    window.location.href = `amazon.html?search=${encodeURIComponent(search)}`;
+  }
+});
 }
 
