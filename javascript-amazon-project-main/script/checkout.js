@@ -4,7 +4,7 @@ import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 // import '../data/car.js';
 // import '../data/backend-practice.js';
 import { loadProducts, loadProductsFetch } from "../data/products.js";
-import { loadCart } from "../data/cart.js";
+import { loadCart, loadCartFetch } from "../data/cart.js";
 
 async function loadPage(){
 
@@ -12,7 +12,7 @@ async function loadPage(){
 
         // throw 'error1';
 
-        await loadProductsFetch();
+        /* await loadProductsFetch();
 
         const value = await new Promise((resolve) => {
             // throw 'error2';
@@ -23,6 +23,12 @@ async function loadPage(){
                 resolve('value3');
             });
         })
+        await loadCartFetch(); */
+
+        await Promise.all([
+            loadProductsFetch(),
+            loadCartFetch()
+        ]);
 
     } catch (error) {
     console.error("Error loading products or cart");
